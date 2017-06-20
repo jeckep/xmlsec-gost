@@ -92,7 +92,9 @@ public abstract class DOMSignatureMethod extends AbstractDOMSignatureMethod {
         "http://www.w3.org/2007/05/xmldsig-more#ripemd160-rsa-MGF1";
 		
 	// START GOST SIGNATURE METHODS
-	static final String GOSTR34102001_GOSTR3411 =
+    static final String GOST3410 =
+        "http://www.w3.org/2001/04/xmldsig-more#gost3410";
+    static final String GOSTR34102001_GOSTR3411 =
 		"http://www.w3.org/2001/04/xmldsig-more#gostr34102001-gostr3411";
 	static final String GOSTR34102001_GOSTR3411_URN =
 		"urn:ietf:params:xml:ns:cpxmlsec:algorithms:gostr34102001-gostr3411";
@@ -182,6 +184,8 @@ public abstract class DOMSignatureMethod extends AbstractDOMSignatureMethod {
             return new SHA512withECDSA(smElem);
         } else if (alg.equals(ECDSA_RIPEMD160)) {
             return new RIPEMD160withECDSA(smElem);
+        } else if(alg.equals(GOST3410)) {
+            return new DOMSignatureMethod.Gost3410(smElem);
         } else if (alg.equals(GOSTR34102001_GOSTR3411)) {
             return new GOST3411withGOST3410(smElem);
         } else if (alg.equals(GOSTR34102001_GOSTR3411_URN)) {
@@ -768,6 +772,28 @@ public abstract class DOMSignatureMethod extends AbstractDOMSignatureMethod {
             return "ECGOST3410";
         }
         @Override
+        Type getAlgorithmType() {
+            return Type.GOST;
+        }
+    }
+
+    static final class Gost3410 extends DOMSignatureMethod {
+        Gost3410(AlgorithmParameterSpec params) throws InvalidAlgorithmParameterException {
+            super(params);
+        }
+
+        Gost3410(Element dmElem) throws MarshalException {
+            super(dmElem);
+        }
+
+        public String getAlgorithm() {
+            return GOST3410;
+        }
+
+        String getJCAAlgorithm() {
+            return "ECGOST3410";
+        }
+
         Type getAlgorithmType() {
             return Type.GOST;
         }

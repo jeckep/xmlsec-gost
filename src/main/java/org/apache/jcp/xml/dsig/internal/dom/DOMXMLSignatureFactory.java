@@ -329,6 +329,8 @@ public final class DOMXMLSignatureFactory extends XMLSignatureFactory {
             return new DOMSignatureMethod.GOST3411_2012_256withGOST3410_2012_256_URN(params);
         } else if (algorithm.equals(DOMSignatureMethod.GOSTR34102012_GOSTR34112012_512_URN)) {
             return new DOMSignatureMethod.GOST3411_2012_512withGOST3410_2012_512_URN(params);
+        }else if(algorithm.equals(DOMSignatureMethod.GOST3410)) {
+            return new DOMSignatureMethod.Gost3410(params);
         } else {
             throw new NoSuchAlgorithmException("unsupported algorithm");
         }
